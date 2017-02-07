@@ -1,0 +1,13 @@
+{
+  "name": "md_lab_1",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": {},
+  "author": "Igor Leahu",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.1"
+  },
+  "devDependencies": {
+  }
+}

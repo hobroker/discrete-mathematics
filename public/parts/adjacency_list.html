@@ -1,0 +1,40 @@
+<table>
+    <tr ng-repeat="(row, point) in data.a_list">
+        <td class="corner-tl">
+            x<sub>{{row}}</sub>
+        </td>
+        <td class="corner-tr">
+            {{data.a_list[row].join('_')}}
+            <!--<span ng-if="data.a_list[$index].length">_</span>0-->
+        </td>
+        <td class="corner-trl" style="width: 105px;">
+            <md-menu>
+                <md-button ng-click="$mdOpenMenu()" class="md-icon-button md-accent" aria-label="Add">
+                    <md-icon>add</md-icon>
+                </md-button>
+                <md-menu-content width="1">
+                    <md-menu-item ng-repeat="(number, item) in data.a_list">
+
+                        <md-button ng-click="a_list_add(row, number + 1)"
+                                   ng-if="missingInList(row, number + 1)">
+                            {{number + 1}}
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            <md-menu ng-if="data.a_list[$index].length">
+                <md-button ng-click="$mdOpenMenu()" class="md-icon-button md-accent" aria-label="Add">
+                    <md-icon>remove</md-icon>
+                </md-button>
+                <md-menu-content width="1">
+                    <md-menu-item ng-repeat="(number, item) in data.a_list">
+                        <md-button ng-click="a_list_remove(row, number + 1)"
+                                   ng-if="!missingInList(row, number + 1)">
+                            {{number + 1}}
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </td>
+    </tr>
+</table>

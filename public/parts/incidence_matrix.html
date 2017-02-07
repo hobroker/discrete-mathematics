@@ -1,0 +1,16 @@
+<table>
+    <tr>
+        <td class="corner-tl"></td>
+        <td ng-repeat="point in data.i_matrix track by $index">
+            x<sub>{{$index+1}}</sub>
+        </td>
+    </tr>
+    <tr ng-repeat="point in data.i_matrix track by $index">
+        <td>
+            x<sub>{{$index+1}}</sub>
+        </td>
+        <td ng-repeat="item in data.i_matrix[$index] track by $index">
+            <input max="1" min="0" type="number" ng-model="data.i_matrix[$parent.$index][$index]">
+        </td>
+    </tr>
+</table>
