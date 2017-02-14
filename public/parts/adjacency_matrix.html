@@ -1,1 +1,30 @@
-dsadsadad
+<table>
+    <tr>
+        <td class="corner-tl"></td>
+        <td ng-repeat="point in points.array track by $index">
+            x<sub>{{$index+1}}</sub>
+        </td>
+    </tr>
+    <tr ng-repeat="(u, point) in data.a_matrix">
+        <td>
+            U<sub>{{u+1}}</sub>
+        </td>
+        <td style="text-align: center;" ng-repeat="(x, item) in data.a_matrix[u] track by $index">
+            <input max="2" min="-1" type="number" ng-model="data.a_matrix[u][x]">
+        </td>
+        <td class="corner-full">
+            <md-button class="md-icon-button md-accent" aria-label="Remove"
+                       ng-click="a_matrix_remove(u)">
+                <md-icon>-</md-icon>
+            </md-button>
+        </td>
+    </tr>
+    <tr>
+        <td class="corner-full" colspan="{{data.a_matrix.length + 1}}">
+            <md-button class="md-icon-button md-accent" aria-label="Add"
+                       ng-click="a_matrix_add()">
+                <md-icon>+</md-icon>
+            </md-button>
+        </td>
+    </tr>
+</table>

@@ -20,6 +20,9 @@ td.corner-trl {
     border-right: 0;
     border-left: 0;
 }
+td.corner-full {
+    border: 0;
+}
 tr:last-child td.corner-tl, tr:last-child td.corner-tr , tr:last-child td.corner-trl {
     border-bottom: 0;
 }
