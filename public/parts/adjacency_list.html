@@ -4,8 +4,7 @@
             x<sub>{{row+1}}</sub>
         </td>
         <td class="corner-tr">
-            {{data.a_list[row].join('_')}}
-            <!--<span ng-if="data.a_list[$index].length">_</span>0-->
+            {{humanAList(row)}}
         </td>
         <td class="corner-trl" style="width: 105px;">
             <md-menu>
@@ -14,8 +13,8 @@
                 </md-button>
                 <md-menu-content width="1">
                     <md-menu-item ng-repeat="(number, item) in data.a_list"
-                                  ng-if="missingInList(row, number + 1)">
-                        <md-button ng-click="a_list_add(row, number + 1)">
+                                  ng-if="missingInList(row, number)">
+                        <md-button ng-click="a_list_add(row, number)">
                             {{number + 1}}
                         </md-button>
                     </md-menu-item>
@@ -27,8 +26,8 @@
                 </md-button>
                 <md-menu-content width="1">
                     <md-menu-item ng-repeat="(number, item) in data.a_list"
-                                  ng-if="!missingInList(row, number + 1)">
-                        <md-button ng-click="a_list_remove(row, number + 1)">
+                                  ng-if="!missingInList(row, number)">
+                        <md-button ng-click="a_list_remove(row, number)">
                             {{number + 1}}
                         </md-button>
                     </md-menu-item>
