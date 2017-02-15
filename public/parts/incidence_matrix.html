@@ -10,11 +10,11 @@
             U<sub>{{u+1}}</sub>
         </td>
         <td style="text-align: center;" ng-repeat="(x, item) in data.i_matrix[u] track by $index">
-            <input max="2" min="-1" type="number" ng-model="data.i_matrix[u][x]">
+            <input max="2" min="-1" type="number" ng-model="data.i_matrix[u][x]" ng-change="event.change.i_matrix()">
         </td>
         <td class="corner-full">
             <md-button class="md-icon-button md-accent" aria-label="Remove"
-                       ng-click="i_matrix_remove(u)">
+                       ng-click="event.random.i_matrix_remove_row(u)">
                 <md-icon>-</md-icon>
             </md-button>
         </td>
@@ -22,7 +22,7 @@
     <tr>
         <td class="corner-full" colspan="{{data.i_matrix.length + 1}}">
             <md-button class="md-icon-button md-accent" aria-label="Add"
-                       ng-click="i_matrix_add()">
+                       ng-click="event.random.i_matrix_add_row()">
                 <md-icon>+</md-icon>
             </md-button>
         </td>
