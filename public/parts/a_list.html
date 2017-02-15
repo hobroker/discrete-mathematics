@@ -14,7 +14,7 @@
                 <md-menu-content width="1">
                     <md-menu-item ng-repeat="(number, item) in data.a_list"
                                   ng-if="missingInList(row, number)">
-                        <md-button ng-click="a_list_add(row, number)">
+                        <md-button ng-click="event.a_list.add(row, number)">
                             {{number + 1}}
                         </md-button>
                     </md-menu-item>
@@ -27,7 +27,7 @@
                 <md-menu-content width="1">
                     <md-menu-item ng-repeat="(number, item) in data.a_list"
                                   ng-if="!missingInList(row, number)">
-                        <md-button ng-click="a_list_remove(row, number)">
+                        <md-button ng-click="event.a_list.remove(row, number)">
                             {{number + 1}}
                         </md-button>
                     </md-menu-item>

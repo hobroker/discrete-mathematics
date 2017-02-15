@@ -25,7 +25,7 @@
     <div layout-lg="row">
         <div flex ng-repeat="item in input_types.list">
             <h2 class="md-title">{{::item.name}}</h2>
-            <div ng-include="::item.src"></div>
+            <div ng-include="::item.src" class="part"></div>
         </div>
     </div>
 </md-content>

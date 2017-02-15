@@ -1,3 +1,6 @@
+* {
+    font-family: "Courier New", sans-serif;
+}
 table {
     border-collapse: collapse;
 }
@@ -23,7 +26,9 @@ td.corner-trl {
 td.corner-full {
     border: 0;
 }
-tr:last-child td.corner-tl, tr:last-child td.corner-tr , tr:last-child td.corner-trl {
+tr:last-child td.corner-tl,
+tr:last-child td.corner-tr,
+tr:last-child td.corner-trl {
     border-bottom: 0;
 }
 table input {
@@ -36,9 +41,6 @@ table input {
     height: 30px;
     text-align: right;
 }
-* {
-    font-family: "Courier New", sans-serif;
-}
 md-menu-item {
     height: 30px;
     min-height: 30px;
@@ -46,7 +48,9 @@ md-menu-item {
 md-menu-content {
     padding-top: 0;
 }
-
 md-menu:first-child {
     float: left;
+}
+.part {
+    position: relative;
 }

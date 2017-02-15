@@ -1,5 +1,6 @@
 var app = angular.module('beacon', ['ngMaterial']);
 app.config(($mdThemingProvider) => {
+	//noinspection JSUnresolvedFunction
 	$mdThemingProvider.theme('default')
 		.dark()
 		.primaryPalette('yellow')
@@ -11,13 +12,13 @@ app.controller('DeskCtrl', ($scope) => {
 		list: [
 			{
 				name: 'Matricea de incidență',
-				src: '/parts/incidence_matrix.html',
+				src: '/parts/i_matrix.html',
 			}, {
 				name: 'Matricea de adiacență',
-				src: '/parts/adjacency_matrix.html',
+				src: '/parts/a_matrix.html',
 			}, {
 				name: 'Lista de adiacență',
-				src: '/parts/adjacency_list.html'
+				src: '/parts/a_list.html'
 			}
 		]
 	};
@@ -31,48 +32,44 @@ app.controller('DeskCtrl', ($scope) => {
 		a_list: []
 	};
 
+	$scope.i_matrix_error = false;
+
 	$scope.generate = () => {
-		$scope.data.i_matrix = [
-		 [0, 2, 0],
-		 [0, 1, -1],
-		 [-1, 1, 0],
-		 [1, -1, 0],
-		 ];
-		 helper.iMatrix2All();
-
-		$scope.data.a_list = [
-			[1, 2],
-			[0, 1],
-			[1]
-		];
-		helper.aList2All();
+		$scope.data.i_matrix = [Array.apply(null, new Array($scope.points.count)).map(() => 0)];
+		helper.iMatrix2All();
 	};
 
-	$scope.$watch('points.count', (n) => {
+	let firstTime = true;
+	$scope.$watch('points.count', (n, o) => {
 		$scope.points.array = Array.apply(null, new Array(n)).map(() => 0);
-		$scope.generate();
+		if (firstTime) {
+			firstTime = false;
+			$scope.generate();
+		} else {
+			if (n > o) {
+				$scope.data.i_matrix.forEach((row) => {
+					row.push(0)
+				});
+				$scope.data.a_matrix.forEach((row) => {
+					row.push(0)
+				});
+				while ($scope.data.a_matrix.length < n)
+					$scope.data.a_matrix.push(Array.apply(null, new Array(n)).map(() => 0));
+				$scope.data.a_list.push([])
+			} else {
+				$scope.data.a_matrix = $scope.data.a_matrix.filter((item, index) => {
+					return index < n;
+				});
+				$scope.data.a_matrix.forEach((row) => {
+					row.pop();
+				});
+				$scope.data.i_matrix.forEach((row) => {
+					row.pop();
+				});
+				$scope.data.a_list.pop();
+			}
+		}
 	});
-
-	$scope.a_list_add = (row, item) => {
-		$scope.data.a_list[row].push(item);
-		$scope.data.a_list[row].sort();
-		helper.aList2All();
-	};
-
-	$scope.a_list_remove = (row, item) => {
-		let a = $scope.data.a_list[row];
-		let index = a.indexOf(item);
-		if (index > -1)
-			a.splice(index, 1);
-	};
-
-	$scope.a_matrix_remove = (u) => {
-
-	};
-
-	$scope.a_matrix_add = () => {
-		$scope.data.i_matrix.push(Array.apply(null, new Array($scope.points.count)).map(() => 0))
-	};
 
 	$scope.missingInList = (row, item) => {
 		return $scope.data.a_list[row].indexOf(item) == -1;
@@ -86,8 +83,8 @@ app.controller('DeskCtrl', ($scope) => {
 	};
 
 	$scope.event = {
-		change: {
-			i_matrix: () => {
+		i_matrix: {
+			change: () => {
 				let invalidRows = [];
 				$scope.data.i_matrix.forEach((row, key) => {
 					let count = 0;
@@ -101,26 +98,52 @@ app.controller('DeskCtrl', ($scope) => {
 						invalidRows.push(key);
 				});
 				if (invalidRows.length)
-					console.log(invalidRows);
+					$scope.i_matrix_error = true;
 				else {
+					$scope.i_matrix_error = false;
 					helper.iMatrix2All();
 				}
-			}
-		},
-		random: {
-			i_matrix_add_row: () => {
+			},
+			add: () => {
 				$scope.data.i_matrix.push(Array.apply(null, new Array($scope.points.count)).map(() => 0))
 			},
-			i_matrix_remove_row: (u) => {
+			remove: (u) => {
 				$scope.data.i_matrix.splice(u, 1);
-				$scope.event.change.i_matrix();
+				$scope.event.i_matrix.change();
+			}
+		},
+		a_list: {
+			add: (row, item) => {
+				$scope.data.a_list[row].push(item);
+				$scope.data.a_list[row].sort();
+				helper.aList2All();
+			},
+			remove: (row, item) => {
+				let a = $scope.data.a_list[row];
+				let index = a.indexOf(item);
+				if (index > -1)
+					a.splice(index, 1);
+			}
+		},
+		a_matrix: {
+			change: () => {
+				helper.aMatrix2All();
 			}
 		}
 	};
 
 	const helper = {
 		aMatrix2All: () => {
-
+			$scope.data.a_list = [];
+			$scope.data.a_matrix.forEach((row) => {
+				let f = [];
+				row.forEach((item, col) => {
+					if (item == 1)
+						f.push(col)
+				});
+				$scope.data.a_list.push(f)
+			});
+			helper.aList2All();
 		},
 		iMatrix2All: () => {
 			let list = iMatrix2List($scope.data.i_matrix, $scope.points.count);
@@ -135,6 +158,7 @@ app.controller('DeskCtrl', ($scope) => {
 		},
 		aList2All: () => {
 			let arcs = [];
+			$scope.data.a_matrix = [];
 			$scope.data.a_list.forEach((row, key) => {
 				let f = [];
 				for (let i = 0; i < $scope.points.count; i++)
@@ -147,13 +171,15 @@ app.controller('DeskCtrl', ($scope) => {
 			});
 			$scope.data.i_matrix = [];
 			arcs.forEach((arc) => {
-				let f = [];
+				let f = [],
+					from = arc[0],
+					to = arc[1];
 				for (let i = 0; i < $scope.points.count; i++)
-					if (arc[0] == arc[1] && arc[0] == i)
+					if (from == to && from == i)
 						f.push(2);
-					else if (arc[0] == i)
+					else if (from == i)
 						f.push(-1);
-					else if (arc[1] == i)
+					else if (to == i)
 						f.push(1);
 					else
 						f.push(0);
