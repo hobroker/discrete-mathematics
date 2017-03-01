@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="beacon" ng-controller="DeskCtrl">
 <head>
     <meta charset="UTF-8">
-    <title>MD LAB_1</title>
+    <title>{{::title}}</title>
     <link rel="stylesheet" href="/src/angular-material.min.css">
     <link rel="stylesheet" href="custom.css">
 </head>
-<body ng-cloak ng-app="beacon" ng-controller="DeskCtrl">
+<body ng-cloak>
 
 <md-toolbar class="md-hue-2">
-    <div class="md-toolbar-tools">
-        MD LAB_1
-    </div>
+    <div class="md-toolbar-tools">{{::title}}</div>
 </md-toolbar>
 
 <h2 class="md-title">Introduceți datele:</h2>

@@ -1,13 +1,13 @@
-var app = angular.module('beacon', ['ngMaterial']);
+const app = angular.module('beacon', ['ngMaterial']);
 app.config(($mdThemingProvider) => {
-	//noinspection JSUnresolvedFunction
 	$mdThemingProvider.theme('default')
 		.dark()
 		.primaryPalette('yellow')
 		.accentPalette('red');
 });
 
-app.controller('DeskCtrl', ($scope) => {
+app.controller('DeskCtrl', ($scope, Graph) => {
+	$scope.title = 'MD Lab 1 & 2';
 	$scope.input_types = [
 		{
 			name: 'Matricea de incidență',
@@ -20,15 +20,13 @@ app.controller('DeskCtrl', ($scope) => {
 			src: '/parts/a_list.html'
 		}
 	];
+
 	$scope.points = {
 		count: 3,
 		array: []
 	};
-	$scope.data = {
-		i_matrix: [],
-		a_matrix: [],
-		a_list: []
-	};
+
+	$scope.data = Graph;
 
 	$scope.i_matrix_errors = [];
 
@@ -76,15 +74,38 @@ app.controller('DeskCtrl', ($scope) => {
 				let invalidRows = [];
 				$scope.data.i_matrix.forEach((row, key) => {
 					let count = 0;
+					let zerosCount = 0;
+					let hasIn = false;
+					let hasOut = false;
+					let isLoop = false;
 					row.forEach((item) => {
-						if (!item)
-							return;
-						if (item == 2)
-							count += 2;
-						else if (item == -1 || item == 1)
-							count++;
+						switch (item) {
+							case 0: {
+								zerosCount++;
+							}
+								break;
+							case -1: {
+								if (hasOut)
+									count++;
+								hasOut = true;
+								count++;
+							}
+								break;
+							case 1: {
+								if (hasIn)
+									count++;
+								hasIn = true;
+								count++;
+							}
+								break;
+							case 2: {
+								isLoop = true;
+								count += 2
+							}
+								break;
+						}
 					});
-					if (count != 2)
+					if (count != 2 && zerosCount != row.length)
 						invalidRows.push(key);
 				});
 				if (invalidRows.length)
@@ -176,6 +197,14 @@ app.controller('DeskCtrl', ($scope) => {
 				$scope.data.i_matrix.push(f);
 			})
 		},
+	}
+});
+
+app.factory('Graph', () => {
+	return {
+		i_matrix: [],
+		a_matrix: [],
+		a_list: []
 	}
 });
 
