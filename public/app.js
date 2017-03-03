@@ -6,7 +6,7 @@ app.config(($mdThemingProvider) => {
 		.accentPalette('red');
 });
 
-app.controller('DeskCtrl', ($scope, Graph) => {
+app.controller('DeskCtrl', ($scope, $mdDialog, Graph) => {
 	$scope.title = 'MD Lab 1 & 2';
 	$scope.input_types = [
 		{
@@ -31,13 +31,13 @@ app.controller('DeskCtrl', ($scope, Graph) => {
 	$scope.i_matrix_errors = [];
 
 	$scope.generate = () => {
-		$scope.data.i_matrix = [makeArr($scope.points.count, 0)];
+		$scope.data.i_matrix = [zerosArray($scope.points.count, 0)];
 		helper.iMatrix2All();
 	};
 
 	let firstTime = true;
 	$scope.$watch('points.count', (n, o) => {
-		$scope.points.array = makeArr(n, 0);
+		$scope.points.array = zerosArray(n, 0);
 		if (firstTime) {
 			firstTime = false;
 			$scope.generate();
@@ -46,7 +46,7 @@ app.controller('DeskCtrl', ($scope, Graph) => {
 				$scope.data.i_matrix.forEach((row) => row.push(0));
 				$scope.data.a_matrix.forEach((row) => row.push(0));
 				while ($scope.data.a_matrix.length < n)
-					$scope.data.a_matrix.push(makeArr(n, 0));
+					$scope.data.a_matrix.push(zerosArray(n, 0));
 				$scope.data.a_list.push([])
 			} else {
 				$scope.data.a_matrix = $scope.data.a_matrix.filter((item, index) => index < n);
@@ -116,7 +116,7 @@ app.controller('DeskCtrl', ($scope, Graph) => {
 				}
 			},
 			add: () => {
-				$scope.data.i_matrix.push(makeArr($scope.points.count, 0));
+				$scope.data.i_matrix.push(zerosArray($scope.points.count, 0));
 			},
 			remove: (u) => {
 				$scope.data.i_matrix.splice(u, 1);
@@ -197,7 +197,7 @@ app.controller('DeskCtrl', ($scope, Graph) => {
 				$scope.data.i_matrix.push(f);
 			})
 		},
-	}
+	};
 });
 
 app.factory('Graph', () => {
@@ -236,4 +236,4 @@ const iMatrix2List = (data, points) => {
 	return list;
 };
 
-const makeArr = (length, value) => Array.apply(null, new Array(length)).map(() => value);
+const zerosArray = (length, value) => Array.apply(null, new Array(length)).map(() => value);

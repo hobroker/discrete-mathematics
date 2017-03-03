@@ -11,20 +11,41 @@
 <md-toolbar class="md-hue-2">
     <div class="md-toolbar-tools">{{::title}}</div>
 </md-toolbar>
-
-<h2 class="md-title">Introduceți datele:</h2>
-<md-input-container class="md-block" flex-lg="50">
-    <label>Numărul de vârfuri</label>
-    <input ng-model="points.count" type="number" max="100" min="1" step="1">
-</md-input-container>
-<md-content layout-padding>
-    <div layout-lg="row">
-        <div flex ng-repeat="item in input_types">
-            <h2 class="md-title">{{::item.name}}</h2>
-            <div ng-include="::item.src" class="part"></div>
+<md-content>
+    <div layout="row" class="step">
+        <div flex="1">
+            <md-button class="md-fab md-primary md-mini" aria-label="Step 1">1</md-button>
+        </div>
+        <div flex>
+            <h2 class="md-subhead">Numărul de vârfuri:</h2>
+            <md-input-container class="md-block">
+                <input ng-model="points.count" class="end-point-input" type="number"
+                       max="100" min="1" step="1" title="Points count" aria-label="Points count">
+            </md-input-container>
+        </div>
+    </div>
+    <div layout="row" class="step">
+        <div flex="1">
+            <md-button class="md-fab md-primary md-mini" aria-label="Step 2">2</md-button>
+        </div>
+        <div flex>
+            <h2 class="md-subhead">Introducere graf</h2>
+            <md-tabs md-dynamic-height>
+                <md-tab ng-repeat="item in input_types"
+                        md-enable-disconnect="true"
+                        md-border-bottom="true"
+                        md-stretch-tabs="always"
+                        label="{{::item.name}}">
+                    <md-content>
+                        <h2 class="md-title">{{::item.name}}</h2>
+                        <div ng-include="::item.src" class="part"></div>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
         </div>
     </div>
 </md-content>
+
 
 <script src="/src/angular.js"></script>
 
