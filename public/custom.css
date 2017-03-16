@@ -36,9 +36,9 @@ td.corner-trl {
 td.corner-full {
   border: 0;
 }
-tr:last-child td.corner-tl,
-tr:last-child td.corner-tr,
-tr:last-child td.corner-trl {
+trlast-child td.corner-tl,
+trlast-child td.corner-tr,
+trlast-child td.corner-trl {
   border-bottom: 0;
 }
 md-menu-item {
@@ -48,7 +48,7 @@ md-menu-item {
 md-menu-content {
   padding-top: 0;
 }
-md-menu:first-child {
+md-menufirst-child {
   float: left;
 }
 .part {

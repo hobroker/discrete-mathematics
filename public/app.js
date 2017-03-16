@@ -6,7 +6,7 @@ app.config(($mdThemingProvider) => {
 		.accentPalette('red');
 });
 
-app.controller('DeskCtrl', ($scope, $mdDialog, Graph) => {
+app.controller('DeskCtrl', ($scope, $mdDialog, Graph, DFT) => {
 	$scope.title = 'MD Lab 1 & 2';
 	$scope.input_types = [
 		{
@@ -20,19 +20,32 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Graph) => {
 			src: '/parts/a_list.html'
 		}
 	];
+	$scope.ux = {
+		selectedItem: 2,
+		selectedItemTrans: 2
+	};
 
 	$scope.points = {
-		count: 3,
+		count: 5,
 		array: []
 	};
 
 	$scope.data = Graph;
+	$scope.dft = new DFT();
 
 	$scope.i_matrix_errors = [];
 
 	$scope.generate = () => {
-		$scope.data.i_matrix = [zerosArray($scope.points.count, 0)];
-		helper.iMatrix2All();
+		// $scope.data.i_matrix = [zerosArray($scope.points.count, 0)];
+		// helper.iMatrix2All();
+		$scope.data.a_list = [
+			[1],
+			[2],
+			[4],
+			[3],
+			[]
+		];
+		$scope.dft.play($scope.data.a_list)
 	};
 
 	let firstTime = true;
@@ -58,7 +71,7 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Graph) => {
 	});
 
 	$scope.missingInList = (row, item) => {
-		return $scope.data.a_list[row].indexOf(item) == -1;
+		return !$scope.data.a_list[row].includes(item);
 	};
 
 	$scope.humanAList = (row) => {
@@ -105,7 +118,7 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Graph) => {
 								break;
 						}
 					});
-					if (count != 2 && zerosCount != row.length)
+					if (count !== 2 && zerosCount !== row.length)
 						invalidRows.push(key);
 				});
 				if (invalidRows.length)
@@ -149,7 +162,7 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Graph) => {
 			$scope.data.a_matrix.forEach((row) => {
 				let f = [];
 				row.forEach((item, col) => {
-					if (item == 1)
+					if (item === 1)
 						f.push(col)
 				});
 				$scope.data.a_list.push(f)
@@ -163,7 +176,7 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Graph) => {
 				$scope.data.a_list[key] = row;
 				let f = [];
 				for (let i = 0; i < $scope.points.count; i++)
-					f.push(+(row.indexOf(i) != -1))
+					f.push(+(row.includes(i)))
 				$scope.data.a_matrix.push(f);
 			});
 		},
@@ -173,7 +186,7 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Graph) => {
 			$scope.data.a_list.forEach((row, key) => {
 				let f = [];
 				for (let i = 0; i < $scope.points.count; i++)
-					f.push(+(row.indexOf(i) != -1))
+					f.push(+(row.includes(i)))
 				$scope.data.a_matrix.push(f);
 
 				row.forEach((item) => {
@@ -186,18 +199,22 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Graph) => {
 					from = arc[0],
 					to = arc[1];
 				for (let i = 0; i < $scope.points.count; i++)
-					if (from == to && from == i)
+					if (from === to && from === i)
 						f.push(2);
-					else if (from == i)
+					else if (from === i)
 						f.push(-1);
-					else if (to == i)
+					else if (to === i)
 						f.push(1);
 					else
 						f.push(0);
 				$scope.data.i_matrix.push(f);
-			})
+			});
 		},
 	};
+
+	$scope.playDFT = () => {
+		$scope.dft.play($scope.data.a_list)
+	}
 });
 
 app.factory('Graph', () => {
@@ -205,6 +222,37 @@ app.factory('Graph', () => {
 		i_matrix: [],
 		a_matrix: [],
 		a_list: []
+	}
+});
+app.factory('DFT', () => {
+
+	return function () {
+		this.root = 1;
+		this.list = [];
+		this.play = (data) => {
+			let root = this.root - 1;
+			let full = [];
+			for (let i = 0; i < data.length; i++)
+				full.push(i)
+			function dft(v, list = []) {
+				list.push(v);
+				data[v].forEach(i => {
+					if (!list.includes(i))
+						dft(i, list)
+				});
+				return list;
+			}
+
+			let list = dft(root);
+			while (!(q = list.equal(full)).equal) {
+				dft(q.point, list);
+			}
+			this.list = list.map(i => i + 1);
+		};
+
+		this.removeFromStack = (item) => {
+			this.stack.splice(array.indexOf(item), 1);
+		}
 	}
 });
 
@@ -218,15 +266,15 @@ const iMatrix2List = (data, points) => {
 			let c = col;
 			if (!item)
 				return;
-			if (item == 2)
+			if (item === 2)
 				list[c].push(c);
-			else if (item == -1)
-				if (typeof to == 'undefined')
+			else if (item === -1)
+				if (typeof to === 'undefined')
 					from = c;
 				else
 					list[c].push(to);
-			else if (item == 1)
-				if (typeof from == 'undefined')
+			else if (item === 1)
+				if (typeof from === 'undefined')
 					to = c;
 				else
 					list[from].push(c)
@@ -236,4 +284,16 @@ const iMatrix2List = (data, points) => {
 	return list;
 };
 
-const zerosArray = (length, value) => Array.apply(null, new Array(length)).map(() => value);
+const zerosArray = (length, value) => ("" + value).repeat(length).split('').map(Number);
+
+Array.prototype.equal = function (array) {
+	for (let i = 0; i < this.length; i++) {
+		if (!array.includes(this[i]))
+			return {equal: false, point: this[i]};
+	}
+	for (let i = 0; i < array.length; i++) {
+		if (!this.includes(array[i]))
+			return {equal: false, point: array[i]};
+	}
+	return {equal: true};
+};

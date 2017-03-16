@@ -1,0 +1,13 @@
+<h2 class="md-subhead">Parcurgere în adâncime</h2>
+<div layout="row">
+    <div flex="1">
+        <md-input-container>
+            <label>Rădăcina</label>
+            <input ng-model="dft.root" type="number">
+        </md-input-container>
+        <md-button class="md-raised" ng-click="playDFT()">PLAY</md-button>
+    </div>
+    <div flex>
+        {{dft.list}}
+    </div>
+</div>

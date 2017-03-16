@@ -11,44 +11,72 @@
 <md-toolbar class="md-hue-2">
     <div class="md-toolbar-tools">{{::title}}</div>
 </md-toolbar>
-<md-content>
-    <div layout="row" class="step">
-        <div flex="1">
-            <md-button class="md-fab md-primary md-mini" aria-label="Step 1">1</md-button>
-        </div>
-        <div flex>
-            <h2 class="md-subhead">Numărul de vârfuri:</h2>
-            <md-input-container class="md-block">
-                <input ng-model="points.count" class="end-point-input" type="number"
-                       max="100" min="1" step="1" title="Points count" aria-label="Points count">
-            </md-input-container>
+<div layout="row" class="step">
+    <div flex="1">
+        <md-button class="md-fab md-primary md-mini" aria-label="Step 1">1</md-button>
+    </div>
+    <div flex>
+        <h2 class="md-subhead">Numărul de vârfuri:</h2>
+        <md-input-container class="md-block">
+            <input ng-model="points.count" class="end-point-input" type="number"
+                   max="100" min="1" step="1" title="Points count" aria-label="Points count">
+        </md-input-container>
+    </div>
+</div>
+<div layout="row" class="step">
+    <div flex="1">
+        <md-button class="md-fab md-primary md-mini" aria-label="Step 2">2</md-button>
+    </div>
+    <div flex>
+        <h2 class="md-subhead">Introducere graf</h2>
+        <div layout="row">
+            <div flex="1" layout="column">
+                <md-button class="md-raised" ng-disabled="ux.selectedItem === $index"
+                           ng-click="ux.selectedItem = $index"
+                           ng-repeat="item in input_types">{{::item.name}}
+                </md-button>
+            </div>
+            <div flex>
+                <md-content ng-repeat="item in input_types" ng-show="ux.selectedItem === $index">
+                    <div ng-include="::item.src" class="part"></div>
+                </md-content>
+            </div>
         </div>
     </div>
-    <div layout="row" class="step">
-        <div flex="1">
-            <md-button class="md-fab md-primary md-mini" aria-label="Step 2">2</md-button>
-        </div>
-        <div flex>
-            <h2 class="md-subhead">Introducere graf</h2>
-            <md-tabs md-dynamic-height>
-                <md-tab ng-repeat="item in input_types"
-                        md-enable-disconnect="true"
-                        md-border-bottom="true"
-                        md-stretch-tabs="always"
-                        label="{{::item.name}}">
-                    <md-content>
-                        <h2 class="md-title">{{::item.name}}</h2>
-                        <div ng-include="::item.src" class="part"></div>
-                    </md-content>
-                </md-tab>
-            </md-tabs>
+</div>
+
+<div layout="row" class="step">
+    <div flex="1">
+        <md-button class="md-fab md-primary md-mini" aria-label="Step 3">3</md-button>
+    </div>
+    <div flex>
+        <h2 class="md-subhead">Transformare</h2>
+        <div layout="row">
+            <div flex="1" layout="column">
+                <md-button class="md-raised" ng-disabled="ux.selectedItemTrans === $index"
+                           ng-click="ux.selectedItemTrans = $index"
+                           ng-repeat="item in input_types">{{::item.name}}
+                </md-button>
+            </div>
+            <div flex>
+                <md-content ng-repeat="item in input_types" ng-show="ux.selectedItemTrans === $index">
+                    <div ng-include="::item.src" class="part"></div>
+                </md-content>
+            </div>
         </div>
     </div>
-</md-content>
+</div>
+
+<div layout="row" class="step">
+    <div flex="1">
+        <md-button class="md-fab md-primary md-mini" aria-label="Step 4">4</md-button>
+    </div>
+    <div flex ng-include="'parts/dfs.html'"></div>
+</div>
 
 
-<script src="/src/angular.js"></script>
+<script src="src/angular.js"></script>
 
-<script src="/app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

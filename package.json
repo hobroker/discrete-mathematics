@@ -2,12 +2,29 @@
   "name": "md_lab_1",
   "version": "0.0.1",
   "main": "index.js",
-  "repository": {},
-  "author": "Igor Leahu",
-  "license": "MIT",
-  "dependencies": {
-    "express": "^4.14.1"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hobroker/discrete-maths"
   },
-  "devDependencies": {
-  }
+  "bugs": {
+    "url": "https://github.com/hobroker/discrete-maths/issues",
+    "email": "igor.leahu24@gmail.com"
+  },
+  "author": {
+    "name": "Igor Leahu",
+    "email": "igor.leahu24@gmail.com",
+    "url": "http://hobroker.com"
+  },
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "config": {
+    "port": "3002"
+  },
+  "dependencies": {
+    "express": "^4.14.1",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {}
 }
