@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="beacon" ng-controller="DeskCtrl">
+<head>
+    <meta charset="UTF-8">
+    <title>{{::title}}</title>
+    <link rel="stylesheet" href="src/angular-material.min.css">
+    <link rel="stylesheet" href="custom.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body ng-cloak>
+
+<md-toolbar class="md-hue-2">
+    <div class="md-toolbar-tools">{{::title}}</div>
+</md-toolbar>
+<div layout="row" class="step">
+    <div flex="1">
+        <md-button class="md-primary md-icon-button" aria-label="Step 1"><md-icon>done</md-icon></md-button>
+    </div>
+    <div flex>
+        <h2 class="md-subhead">Numărul de vârfuri:</h2>
+        <md-input-container class="md-block">
+            <input ng-model="points.count" class="end-point-input" type="number"
+                   max="100" min="1" step="1" title="Points count" aria-label="Points count">
+        </md-input-container>
+    </div>
+</div>
+<div layout="row" class="step">
+    <div flex="1">
+        <md-button class="md-primary md-icon-button" aria-label="Step 2"><md-icon>done</md-icon></md-button>
+    </div>
+    <div flex>
+        <h2 class="md-subhead">Introducere graf</h2>
+        <div layout="row">
+            <div flex>
+                <md-content ng-include="'parts/a_list.html'" class="part"></md-content>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div layout="row" class="step">
+    <div flex="1">
+        <md-button class="md-primary md-icon-button" aria-label="Step 3"><md-icon>done</md-icon></md-button>
+    </div>
+    <div flex ng-include="'parts/dft.html'"></div>
+</div>
+<div layout="row" class="step">
+    <div flex="1">
+        <md-button class="md-primary md-icon-button" aria-label="Step 4"><md-icon>done</md-icon></md-button>
+    </div>
+    <div flex ng-include="'parts/bft.html'"></div>
+</div>
+
+
+<script src="src/angular.js"></script>
+
+<script src="app.js"></script>
+</body>
+</html>

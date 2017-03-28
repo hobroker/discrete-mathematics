@@ -1,0 +1,16 @@
+<h2 class="md-subhead">Parcurgere în lărgime</h2>
+<div layout="row">
+    <div flex="1" layout="column">
+        <md-input-container>
+            <label>Rădăcina</label>
+            <input ng-model="bft.root" type="number" min="1" max="{{points.count}}">
+        </md-input-container>
+        <md-button class="md-raised" ng-click="playBFT()">Parcurge</md-button>
+    </div>
+    <div flex class="dft">
+        <md-button class="md-raised md-accent">S</md-button>
+        <md-button class="md-raised md-primary"
+                   ng-repeat="i in bft.list">{{::i+1}}
+        </md-button>
+    </div>
+</div>

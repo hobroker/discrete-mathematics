@@ -65,3 +65,11 @@ md-menufirst-child {
 .step md-input-container {
   margin-bottom: -10px;
 }
+.dft button {
+  padding: 0;
+  width: 30px;
+  min-width: auto;
+  height: 30px;
+  min-height: auto;
+  line-height: 0;
+}

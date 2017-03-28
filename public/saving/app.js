@@ -6,7 +6,7 @@ app.config(($mdThemingProvider) => {
 		.accentPalette('red');
 });
 
-app.controller('DeskCtrl', ($scope, $mdDialog, Graph, DFT) => {
+app.controller('DeskCtrl', ($scope, $mdDialog, Graph, DFT, BFT) => {
 	$scope.title = 'MD Lab 1 & 2';
 	$scope.input_types = [
 		{
@@ -32,6 +32,7 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Graph, DFT) => {
 
 	$scope.data = Graph;
 	$scope.dft = new DFT();
+	$scope.bft = new BFT();
 
 	$scope.i_matrix_errors = [];
 
@@ -45,7 +46,8 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Graph, DFT) => {
 			[3],
 			[]
 		];
-		$scope.dft.play($scope.data.a_list)
+		$scope.dft.play($scope.data.a_list);
+		$scope.bft.play($scope.data.a_list);
 	};
 
 	let firstTime = true;
@@ -225,7 +227,6 @@ app.factory('Graph', () => {
 	}
 });
 app.factory('DFT', () => {
-
 	return function () {
 		this.root = 1;
 		this.list = [];
@@ -249,10 +250,42 @@ app.factory('DFT', () => {
 			}
 			this.list = list.map(i => i + 1);
 		};
+	}
+});
 
-		this.removeFromStack = (item) => {
-			this.stack.splice(array.indexOf(item), 1);
-		}
+app.factory('BFT', () => {
+	return function () {
+		this.root = 1;
+		this.list = [];
+		this.play = (data) => {
+			let root = this.root - 1;
+			let queue = [];
+			let list = [];
+
+			let full = [];
+			for (let i = 0; i < data.length; i++)
+				full.push(i)
+			let f = false;
+			while (!f) {
+				queue.push(root);
+				list.push(root);
+
+				while (queue.length > 0) {
+					u = queue.splice(0, 1)[0];
+					for (let i = 0; i < data[u].length; i++) {
+						v = data[u][i];
+						if (!list.includes(v)) {
+							list.push(v);
+							queue.push(v);
+						}
+					}
+				}
+				let q = list.equal(full);
+				f = q.equal;
+				root = q.point;
+			}
+			console.log(list)
+		};
 	}
 });
 
