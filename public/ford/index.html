@@ -14,7 +14,9 @@
 </md-toolbar>
 <div layout="row" class="step">
     <div flex="1">
-        <md-button class="md-primary md-icon-button" aria-label="Step 1"><md-icon>done</md-icon></md-button>
+        <md-button class="md-primary md-icon-button" aria-label="Step 1">
+            <md-icon>done</md-icon>
+        </md-button>
     </div>
     <div flex>
         <h2 class="md-subhead">Numărul de vârfuri:</h2>
@@ -26,13 +28,33 @@
 </div>
 <div layout="row" class="step">
     <div flex="1">
-        <md-button class="md-primary md-icon-button" aria-label="Step 2"><md-icon>done</md-icon></md-button>
+        <md-button class="md-primary md-icon-button" aria-label="Step 2">
+            <md-icon>done</md-icon>
+        </md-button>
     </div>
     <div flex>
         <h2 class="md-subhead">Introducere ponderi</h2>
         <div layout="row">
             <div flex>
                 <md-content ng-include="'parts/share.html'" class="part"></md-content>
+            </div>
+            <div flex>
+                <md-content ng-include="'parts/shortest.html'" class="part"></md-content>
+            </div>
+            <div flex>
+                <table class="table-free">
+                    <tr ng-repeat="log in data.shortest.logs">
+                        <td>{{log}}</td>
+                    </tr>
+                </table>
+                <table class="table-free">
+                    <tr ng-repeat="item in data.shortest.hs.history">
+                        <td>H{{$index+1}}</td>
+                        <td>
+                            <span ng-repeat="i in item">{{i}}, </span>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

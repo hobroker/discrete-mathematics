@@ -1,0 +1,12 @@
+<table class="table-free">
+    <tr>
+        <th>(xi, xj)</th>
+        <th>Pij</th>
+        <th>Hj-Hi</th>
+    </tr>
+    <tr ng-repeat="share in data.shares">
+        <td>({{share.from}}, {{share.to}})</td>
+        <td>{{share.share}}</td>
+        <td>H{{share.to}}-H{{share.from}}=</td>
+    </tr>
+</table>

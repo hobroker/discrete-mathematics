@@ -1,39 +1,26 @@
 <table>
-    <tr ng-repeat="(row, point) in data.a_list">
-        <td class="corner-tl">
-            x<sub>{{::row+1}}</sub>
+    <tr>
+        <th>F</th>
+        <th>T</th>
+        <th>P</th>
+        <th></th>
+    </tr>
+    <tr ng-repeat="share in data.shares">
+        <td>
+            <input type="number" ng-model="share.from" min="1" max="{{points.count}}">
         </td>
-        <td class="corner-tr">
-            {{humanAList(row)}}
+        <td>
+            <input type="number" ng-model="share.to" min="1" max="{{points.count}}">
         </td>
-        <td class="corner-trl" style="width: 105px;">
-            <md-menu>
-                <md-button ng-click="$mdOpenMenu()" class="md-icon-button md-accent" aria-label="Add"
-                           style="float: left;">
-                    <md-icon>+</md-icon>
-                </md-button>
-                <md-menu-content width="1">
-                    <md-menu-item ng-repeat="(number, item) in data.a_list"
-                                  ng-if="missingInList(row, number)">
-                        <md-button ng-click="event.a_list.add(row, number)">
-                            {{::number + 1}}
-                        </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-            <md-menu ng-if="data.a_list[$index].length">
-                <md-button ng-click="$mdOpenMenu()" class="md-icon-button md-accent" aria-label="Remove">
-                    <md-icon>-</md-icon>
-                </md-button>
-                <md-menu-content width="1">
-                    <md-menu-item ng-repeat="(number, item) in data.a_list"
-                                  ng-if="!missingInList(row, number)">
-                        <md-button ng-click="event.a_list.remove(row, number)">
-                            {{::number + 1}}
-                        </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
+        <td>
+            <input type="number" ng-model="share.share" min="0">
+        </td>
+        <td md-colors="{color:'accent'}">
+            <md-button class="md-button-icon h-small tiny" ng-click="removeShare($index)">-</md-button>
         </td>
     </tr>
 </table>
+<md-button class="md-primary md-raised h-small" ng-click="addShare()">+</md-button>
+
+<md-button class="md-raised" ng-click="minPath()">Drum minim</md-button>
+
