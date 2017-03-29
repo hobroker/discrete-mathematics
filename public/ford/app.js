@@ -54,10 +54,12 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 		let shares = $scope.data.shares;
 		let h = $scope.data.shortest.hs;
 		let history = h.history;
+		let table = h.table;
 		let hs = h.values;
 		let logs = $scope.data.shortest.logs;
 
 		hs.length = 0;
+		table.length = 0;
 		history.length = 0;
 		hs = Array.from(new Array(pointsCount).keys()).map((h, index) => !index ? 0 : Infinity);
 		history = Array.from(new Array(pointsCount).keys()).map(i => []);
@@ -65,13 +67,17 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 
 		let stillWorking = true;
 		while (stillWorking) {
+			let col = [];
 			stillWorking = false;
 			shares.forEach(share => {
 				let from = share.from - 1;
 				let to = share.to - 1;
 				let p = share.share;
-				console.log(hs[to] - hs[from] > p);
-				if (hs[to] - hs[from] > p) {
+
+				let diff = hs[to] - hs[from];
+				let l = diff === p ? '=' : diff > p ? '>' : '<';
+				col.push(`H${to + 1}-H${from + 1}=${diff === Infinity ? infinitySymbol : diff} (${l})`)
+				if (diff > p) {
 					let newVal = hs[from] + p;
 					logs.push(`H${to + 1} = H${from + 1} + ${p} = ${newVal}`);
 					hs[to] = newVal;
@@ -79,9 +85,12 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 					stillWorking = true;
 				}
 			});
+			table.push(col)
 		}
 		$scope.data.shortest.hs.history = history;
 		$scope.data.shortest.hs.values = hs;
+		$scope.data.shortest.hs.table = table;
+		console.log(table)
 	};
 
 });
@@ -109,7 +118,8 @@ app.factory('Share', () => {
 		shortest: {
 			hs: {
 				values: [],
-				history: []
+				history: [],
+				table: []
 			},
 			logs: []
 		}

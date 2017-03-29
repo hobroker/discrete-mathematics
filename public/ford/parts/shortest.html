@@ -2,11 +2,13 @@
     <tr>
         <th>(xi, xj)</th>
         <th>Pij</th>
-        <th>Hj-Hi</th>
+        <th ng-repeat="item in data.shortest.hs.table">Hj-Hi</th>
     </tr>
     <tr ng-repeat="share in data.shares">
         <td>({{share.from}}, {{share.to}})</td>
         <td>{{share.share}}</td>
-        <td>H{{share.to}}-H{{share.from}}=</td>
+        <td ng-repeat="item in data.shortest.hs.table">
+            {{data.shortest.hs.table[$index][$parent.$index]}}
+        </td>
     </tr>
 </table>
