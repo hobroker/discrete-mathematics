@@ -34,7 +34,7 @@
     </div>
     <div flex>
         <h2 class="md-subhead">Introducere ponderi</h2>
-        <div layout="row">
+        <div layout-gt-md="row">
             <div flex>
                 <md-content ng-include="'parts/share.html'" class="part"></md-content>
             </div>
@@ -58,6 +58,18 @@
                         </td>
                     </tr>
                 </table>
+                <p>Rezultat:</p>
+                <table>
+                    <tr ng-repeat="row in data.shortest.result">
+                        <td class="corner-tl">
+                            x<sub>{{$index+1}}</sub>
+                        </td>
+                        <td class="corner-tr">
+                            {{humanList(row)}}
+                        </td>
+                    </tr>
+                </table>
+
             </div>
         </div>
     </div>

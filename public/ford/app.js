@@ -52,22 +52,20 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 	$scope.minPath = () => {
 		let pointsCount = $scope.points.count;
 		let shares = $scope.data.shares;
-		let h = $scope.data.shortest.hs;
-		let history = h.history;
-		let table = h.table;
-		let hs = h.values;
-		let logs = $scope.data.shortest.logs;
+		let history = [];
+		let table = [];
+		let hs = [];
+		let logs = [];
+		let symbols;
 
-		hs.length = 0;
-		table.length = 0;
-		history.length = 0;
 		hs = Array.from(new Array(pointsCount).keys()).map((h, index) => !index ? 0 : Infinity);
 		history = Array.from(new Array(pointsCount).keys()).map(i => []);
 		history.forEach((item, index) => item.push(!index ? 0 : infinitySymbol));
 
 		let stillWorking = true;
 		while (stillWorking) {
-			let col = [];
+			symbols = {};
+			let tableCol = [];
 			stillWorking = false;
 			shares.forEach(share => {
 				let from = share.from - 1;
@@ -75,8 +73,13 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 				let p = share.share;
 
 				let diff = hs[to] - hs[from];
-				let l = diff === p ? '=' : diff > p ? '>' : '<';
-				col.push(`H${to + 1}-H${from + 1}=${diff === Infinity ? infinitySymbol : diff} (${l})`)
+				let symbol = diff === p ? '=' : diff > p ? '>' : '<';
+				tableCol.push(`H${to + 1}-H${from + 1}=${diff === Infinity ? infinitySymbol : diff} (${symbol})`);
+				if (symbol === '=') {
+					if (symbols[to] === undefined)
+						symbols[to] = [];
+					symbols[to].push(from);
+				}
 				if (diff > p) {
 					let newVal = hs[from] + p;
 					logs.push(`H${to + 1} = H${from + 1} + ${p} = ${newVal}`);
@@ -85,12 +88,29 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 					stillWorking = true;
 				}
 			});
-			table.push(col)
+			table.push(tableCol);
 		}
+		let list = [];
+		Object.keys(symbols).forEach(key => {
+			symbols[key].forEach(item => {
+				if (list[item] === undefined)
+					list[item] = [];
+				list[item].push(key);
+				console.log(`${item} -> ${key}`)
+			})
+		});
 		$scope.data.shortest.hs.history = history;
 		$scope.data.shortest.hs.values = hs;
 		$scope.data.shortest.hs.table = table;
-		console.log(table)
+		$scope.data.shortest.result = list;
+		$scope.data.shortest.logs = logs;
+	};
+
+	$scope.humanList = (row) => {
+		let a = row;
+		a = a.sort().map((i) => parseInt(i) + 1);
+		a.push(0);
+		return a.join('_');
 	};
 
 });
@@ -121,7 +141,8 @@ app.factory('Share', () => {
 				history: [],
 				table: []
 			},
-			logs: []
+			logs: [],
+			result: []
 		}
 	}
 });
