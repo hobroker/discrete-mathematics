@@ -9,7 +9,7 @@ app.config(($mdThemingProvider) => {
 const infinitySymbol = '∞';
 
 app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
-	$scope.title = 'MD Lab 2 & 3';
+	$scope.title = 'MD Lab 4';
 
 	$scope.points = {
 		count: 8,
@@ -162,11 +162,13 @@ Array.prototype.equal = function (array) {
 };
 
 
-(function () {
-	const a = document.createElement("script");
-	a.src = "https://rawgit.com/kentcdodds/ng-stats/master/dist/ng-stats.js";
-	a.onload = function () {
-		window.showAngularStats()
-	};
-	document.head.appendChild(a)
-})();
+const debug = () => {
+	(function () {
+		const a = document.createElement("script");
+		a.src = "https://rawgit.com/kentcdodds/ng-stats/master/dist/ng-stats.js";
+		a.onload = function () {
+			window.showAngularStats()
+		};
+		document.head.appendChild(a)
+	})();
+};
