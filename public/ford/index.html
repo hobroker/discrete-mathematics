@@ -49,6 +49,7 @@
     </div>
     <div flex>
         <h2 class="md-subhead">Drum minim</h2>
+        <md-button class="md-raised" ng-click="minPath()">start</md-button>
         <div layout-gt-md="row">
             <div flex="40">
                 <md-content ng-include="'parts/shortest.html'" class="part"></md-content>
@@ -66,10 +67,7 @@
                 <table class="table-free">
                     <tr ng-repeat="item in data.shortest.hs.history">
                         <th>H{{$index+1}}</th>
-                        <td>=</td>
-                        <td ng-repeat="i in item">
-                            {{i}}
-                        </td>
+                        <td>{{item.join()}}</td>
                     </tr>
                 </table>
             </div>
@@ -77,9 +75,9 @@
                 <p>Rezultat:</p>
                 <table>
                     <tr ng-repeat="row in data.shortest.result">
-                        <td class="corner-tl">
+                        <th class="corner-tl">
                             x<sub>{{$index+1}}</sub>
-                        </td>
+                        </th>
                         <td class="corner-tr">
                             {{humanList(row)}}
                         </td>
