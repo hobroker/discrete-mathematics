@@ -41,6 +41,55 @@
         </div>
     </div>
 </div>
+
+
+<div layout="row" class="step">
+    <div flex="1">
+        <md-button class="md-primary md-icon-button" aria-label="Step 2">
+            <md-icon>done</md-icon>
+        </md-button>
+    </div>
+    <div flex>
+        <h2 class="md-subhead">Drum maxim</h2>
+        <md-button class="md-raised" ng-click="maxPath()">start</md-button>
+        <div layout-gt-md="row">
+            <div flex="40">
+                <md-content ng-include="'parts/longest.html'" class="part"></md-content>
+            </div>
+            <div flex>
+                <p>Calcule</p>
+                <table class="table-free">
+                    <tr ng-repeat="log in data.longest.logs">
+                        <td>{{log}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div flex>
+                <p>Valorile lui H</p>
+                <table class="table-free">
+                    <tr ng-repeat="item in data.longest.hs.history">
+                        <th>H{{$index+1}}</th>
+                        <td>{{item.join()}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div flex>
+                <p>Rezultat:</p>
+                <table>
+                    <tr ng-repeat="row in data.longest.result">
+                        <th class="corner-tl">
+                            x<sub>{{$index+1}}</sub>
+                        </th>
+                        <td class="corner-tr">
+                            {{humanList(row)}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div layout="row" class="step">
     <div flex="1">
         <md-button class="md-primary md-icon-button" aria-label="Step 2">
@@ -89,8 +138,9 @@
 </div>
 
 
+
 <script src="src/angular.js"></script>
 
-<script src="app.js"></script>
+<script src="app.min.js"></script>
 </body>
 </html>
