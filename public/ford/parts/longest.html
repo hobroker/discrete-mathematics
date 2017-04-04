@@ -5,10 +5,10 @@
         <th ng-repeat="item in data.longest.hs.table">H<sub>j</sub>-H<sub>i</sub></th>
     </tr>
     <tr ng-repeat="share in data.shares">
-        <td>({{::share.from}}, {{::share.to}})</td>
-        <td>{{::share.share}}</td>
+        <td>({{share.from}}, {{share.to}})</td>
+        <td>{{share.share}}</td>
         <td ng-repeat="item in data.longest.hs.table">
-            {{::data.longest.hs.table[$index][$parent.$index]}}
+            {{data.longest.hs.table[$index][$parent.$index]}}
         </td>
     </tr>
 </table>

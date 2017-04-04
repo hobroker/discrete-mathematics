@@ -71,6 +71,7 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 			});
 			table.push(tableCol);
 		}
+		list = list.map(row => row.filter(i => i === (pointsCount - 1) || list[i] !== undefined && list[i].length));
 		$scope.data.shortest.hs.history = history;
 		$scope.data.shortest.hs.values = hs;
 		$scope.data.shortest.hs.table = table;
@@ -119,6 +120,7 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 			});
 			table.push(tableCol);
 		}
+		list = list.map(row => row.filter(i => i === (pointsCount - 1) || list[i] !== undefined && list[i].length));
 		$scope.data.longest.hs.history = history;
 		$scope.data.longest.hs.values = hs;
 		$scope.data.longest.hs.table = table;
