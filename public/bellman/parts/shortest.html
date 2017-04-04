@@ -1,0 +1,20 @@
+<table style="text-align:center">
+    <tr>
+        <td></td>
+        <td ng-repeat="point in data.matrix track by $index">
+            <b>
+                x<sub>{{$index+1}}</sub>
+            </b>
+        </td>
+    </tr>
+    <tr ng-repeat="point in data.matrix track by $index">
+        <td>
+            <b>
+                x<sub>{{$index+1}}</sub>
+            </b>
+        </td>
+        <td ng-repeat="item in data.matrix[$index] track by $index">
+            {{item===Infinity?'∞':item}}
+        </td>
+    </tr>
+</table>

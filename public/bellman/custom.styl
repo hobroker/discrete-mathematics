@@ -1,0 +1,81 @@
+$width = 50px
+$height = 25px
+*
+	font-family "Courier New", sans-serif
+table
+	border-collapse collapse
+	input
+		padding 0
+		outline 0
+		border 0
+		background transparent
+		color #fff
+		width $width
+		height $height
+		text-align right
+table
+	tr, td, th, &
+		border 1px solid #fff
+table:not(.table-free)
+	td, th
+		width $width
+		height $height
+		border 1px solid #fff
+		padding 0
+		&.corner-tl
+			border-top 0
+			border-left 0
+
+		&.corner-tr
+			border-top 0
+			border-right 0
+
+		&.corner-trl
+			border-top 0
+			border-right 0
+			border-left 0
+
+		&.corner-full
+			border 0
+trlast-child
+	td.corner-tl, td.corner-tr, td.corner-trl
+		border-bottom 0
+md-menu-item
+	height 30px
+	min-height 30px
+md-menu-content
+	padding-top 0
+md-menufirst-child
+	float left
+.part
+	position relative
+.end-point-input
+	font-size 20px
+	margin-top -6px !important
+.step
+	md-input-container, h2
+		display inline-block !important
+
+	md-input-container
+		margin-bottom -10px
+.dft
+	button
+		padding 0
+		width 30px
+		min-width auto
+		height 30px
+		min-height auto
+		line-height 0
+tr
+	&.center-td
+		text-align center
+button.h-small
+	padding 0
+	width 30px
+	min-width auto
+	height 30px
+	min-height auto
+	line-height 0
+	&.tiny
+		height 15px !important
+		min-height 15px !important

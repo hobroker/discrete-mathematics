@@ -1,0 +1,23 @@
+<table>
+    <tr>
+        <th>x<sub>i</sub></th>
+        <th>x<sub>j</sub></th>
+        <th>P</th>
+        <th></th>
+    </tr>
+    <tr ng-repeat="share in data.shares">
+        <td>
+            <input type="number" ng-model="share.from" min="1" max="{{points.count}}">
+        </td>
+        <td>
+            <input type="number" ng-model="share.to" min="1" max="{{points.count}}">
+        </td>
+        <td>
+            <input type="number" ng-model="share.share" min="0">
+        </td>
+        <td md-colors="{color:'accent'}">
+            <md-button class="md-button-icon h-small tiny" ng-click="removeShare($index)">-</md-button>
+        </td>
+    </tr>
+</table>
+<md-button class="md-primary md-raised h-small" ng-click="addShare()">+</md-button>

@@ -156,14 +156,3 @@ Array.prototype.equal = function (array) {
 	}
 	return {equal: true};
 };
-
-class Test {
-	constructor(data) {
-		this.test = data.x;
-	}
-}
-
-const t = new Test({
-	x: 6
-});
-console.log(t)
