@@ -33,41 +33,39 @@
         </md-button>
     </div>
     <div flex>
-        <h2 class="md-subhead">Introducere ponderi</h2>
         <div layout-gt-md="row">
             <div flex="20">
                 <md-content ng-include="'parts/share.html'" class="part"></md-content>
             </div>
-            <div flex>
-                <div layout="row" class="step">
-                    <div flex="1">
-                        <md-button class="md-primary md-icon-button" aria-label="Step 2">
-                            <md-icon>done</md-icon>
-                        </md-button>
-                    </div>
-                    <div flex="50">
-                        <h2 class="md-subhead">Drum minim</h2>
-                        <md-button class="md-raised" ng-click="minPath()">start</md-button>
-                        <div layout-gt-md="row">
-                            <div flex="40">
-                                <md-content ng-include="'parts/gi.html'" class="part"></md-content>
-                            </div>
-                        </div>
-                    </div>
-                    <div flex>
-                        <p>Rezultat:</p>
-                        <table>
-                            <tr ng-repeat="row in data.shortest.result">
-                                <th class="corner-tl">
-                                    x<sub>{{$index+1}}</sub>
-                                </th>
-                                <td class="corner-tr">
-                                    {{humanList(row)}}
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+            <div flex="40" ng-show="finish">
+                <h2 class="md-subhead">Matricea ponderată de adiacență</h2>
+                <md-content ng-include="'parts/matrix.html'" class="part"></md-content>
+            </div>
+            <div flex ng-show="finish">
+                <p>Drumul minim</p>
+                <table>
+                    <tr ng-repeat="row in data.shortest.result">
+                        <th class="corner-tl">
+                            x<sub>{{$index+1}}</sub>
+                        </th>
+                        <td class="corner-tr">
+                            {{humanList(row)}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div flex ng-show="finish">
+                <p>Drumul maxim</p>
+                <table>
+                    <tr ng-repeat="row in data.longest.result">
+                        <th class="corner-tl">
+                            x<sub>{{$index+1}}</sub>
+                        </th>
+                        <td class="corner-tr">
+                            {{humanList(row)}}
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

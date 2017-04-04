@@ -7,6 +7,7 @@ app.config(($mdThemingProvider) => {
 });
 
 const infinitySymbol = '∞';
+const plusMinusSymbol = '±';
 
 app.controller('DeskCtrl', ($scope, $timeout, Share) => {
 	$scope.title = 'MD Lab 4';
@@ -26,7 +27,7 @@ app.controller('DeskCtrl', ($scope, $timeout, Share) => {
 		$scope.data.shares.splice($index, 1)
 	};
 
-	$scope.minPath = () => {
+	const setTable = () => {
 		let pointsCount = $scope.points.count;
 		let shares = $scope.data.shares;
 		let matrix = [];
@@ -37,7 +38,6 @@ app.controller('DeskCtrl', ($scope, $timeout, Share) => {
 			}
 			matrix.push(f)
 		}
-		const s = (k) => k === '+' ? Infinity : k;
 		shares.forEach(share => {
 			let i = share.from - 1;
 			let j = share.to - 1;
@@ -46,9 +46,17 @@ app.controller('DeskCtrl', ($scope, $timeout, Share) => {
 		matrix = matrix.map((row, i) => row.map((item, j) => {
 			if (i === j)
 				return 0;
-			return item === Infinity ? '+' : item;
+			return item === Infinity ? plusMinusSymbol : item;
 		}));
 		$scope.data.matrix = matrix;
+	};
+
+	$scope.minPath = () => {
+		let pointsCount = $scope.points.count;
+		let matrix = $scope.data.matrix;
+
+		const s = (k) => isNaN(k) ? Infinity : k;
+
 		let v = [];
 		v.push([]);
 		for (let i = 0; i < pointsCount; i++) {
@@ -71,10 +79,9 @@ app.controller('DeskCtrl', ($scope, $timeout, Share) => {
 			if (v[counter].equals(v[counter - 1]))
 				end = true;
 		}
-		v.forEach((i, j) => console.log(j, i));
 		let g = v[counter];
 		let list = [];
-		for (let i = 0; i < g.length; i++) {
+		for (let i = 0; i < g.length - 1; i++) {
 			list[i] = [];
 			let index = i === (g.length - 1) ? i : i + 1;
 			for (let j = index; j < g.length; j++)
@@ -83,16 +90,62 @@ app.controller('DeskCtrl', ($scope, $timeout, Share) => {
 		}
 		$scope.data.shortest.result = list;
 	};
+
+	$scope.maxPath = () => {
+		let pointsCount = $scope.points.count;
+		let matrix = $scope.data.matrix;
+		let v = [];
+		const s = (k) => isNaN(k) ? -Infinity : k;
+		v.push([]);
+		for (let i = 0; i < pointsCount; i++) {
+			v[0].push(matrix[i][pointsCount - 1])
+		}
+		let end = false;
+		let counter = 0;
+		while (!end) {
+			counter++;
+			v.push([]);
+			for (let i = 0; i < pointsCount; i++) {
+				let sums = [];
+				for (let j = i + 1; j <= pointsCount; j++) {
+					let sum = s(matrix[i][j - 1]) + s(v[counter - 1][j - 1]);
+					if (sum !== Infinity)
+						sums.push(sum);
+				}
+				v[counter].push(Math.max(...sums))
+			}
+			if (v[counter].equals(v[counter - 1]))
+				end = true;
+		}
+		let g = v[counter];
+		let list = [];
+		for (let i = 0; i < g.length - 1; i++) {
+			list[i] = [];
+			let index = i === (g.length - 1) ? i : i + 1;
+			for (let j = index; j < g.length; j++)
+				if (s(matrix[i][j]) + g[j] === g[i])
+					list[i].push(j)
+		}
+		let beenThere = [1];
+		list.forEach(row => row.forEach(i => beenThere[i] = 1));
+		for (let i = 0; i < beenThere.length; i++)
+			if (!beenThere[i])
+				list[i] = [];
+		$scope.data.longest.result = list;
+	};
 	$scope.humanList = (row = []) => {
 		let a = row;
 		a = a.sort().map((i) => parseInt(i) + 1);
 		a.push(0);
 		return a.join('_');
 	};
-
-	$timeout(() => {
-		$scope.minPath()
-	}, 200)
+	$scope.finish = false;
+	$scope.start = () => {
+		setTable();
+		$scope.minPath();
+		$scope.maxPath();
+		$scope.finish = true;
+	};
 });
 
 app.factory('Share', () => {

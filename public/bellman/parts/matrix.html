@@ -1,11 +1,9 @@
 <table style="text-align:center">
     <tr>
-        <td></td>
-        <td ng-repeat="point in data.matrix track by $index">
-            <b>
-                x<sub>{{$index+1}}</sub>
-            </b>
-        </td>
+        <th></th>
+        <th ng-repeat="point in data.matrix track by $index">
+            x<sub>{{$index+1}}</sub>
+        </th>
     </tr>
     <tr ng-repeat="point in data.matrix track by $index">
         <td>
@@ -14,7 +12,7 @@
             </b>
         </td>
         <td ng-repeat="item in data.matrix[$index] track by $index">
-            {{item===Infinity?'∞':item}}
+            {{item}}
         </td>
     </tr>
 </table>
