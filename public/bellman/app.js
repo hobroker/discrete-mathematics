@@ -6,11 +6,10 @@ app.config(($mdThemingProvider) => {
 		.accentPalette('red');
 });
 
-const infinitySymbol = '∞';
 const plusMinusSymbol = '±';
 
 app.controller('DeskCtrl', ($scope, $timeout, Share) => {
-	$scope.title = 'MD Lab 4';
+	$scope.title = 'MD Lab 5';
 
 	$scope.points = {
 		count: 8,
@@ -88,7 +87,9 @@ app.controller('DeskCtrl', ($scope, $timeout, Share) => {
 				if (s(matrix[i][j]) + g[j] === g[i])
 					list[i].push(j)
 		}
-		$scope.data.shortest.result = list;
+		$scope.data.vs.min = v;
+		$scope.data.shortest.length = v[counter][0];
+		$scope.data.shortest.result = getPaths(v[counter][0], list);
 	};
 
 	$scope.maxPath = () => {
@@ -126,12 +127,9 @@ app.controller('DeskCtrl', ($scope, $timeout, Share) => {
 				if (s(matrix[i][j]) + g[j] === g[i])
 					list[i].push(j)
 		}
-		let beenThere = [1];
-		list.forEach(row => row.forEach(i => beenThere[i] = 1));
-		for (let i = 0; i < beenThere.length; i++)
-			if (!beenThere[i])
-				list[i] = [];
-		$scope.data.longest.result = list;
+		$scope.data.vs.max = v;
+		$scope.data.longest.length = v[counter][0];
+		$scope.data.longest.result = getPaths(v[counter][0], list);
 	};
 	$scope.humanList = (row = []) => {
 		let a = row;
@@ -139,12 +137,45 @@ app.controller('DeskCtrl', ($scope, $timeout, Share) => {
 		a.push(0);
 		return a.join('_');
 	};
+	$scope.humanPath = (row = []) => {
+		return row.map(i => i + 1).join(', ');
+	};
 	$scope.finish = false;
 	$scope.start = () => {
 		setTable();
 		$scope.minPath();
 		$scope.maxPath();
 		$scope.finish = true;
+	};
+
+	const getPaths = (r, list) => {
+		let count = $scope.points.count - 1;
+		let graph = $scope.data.shares;
+		let g = {};
+		graph.forEach(item => g[(item.from - 1) + '' + (item.to - 1)] = item.share);
+		let path = [];
+		let paths = [];
+		let onPath = [];
+		const enumerate = (list, v, t) => {
+			path.push(v);
+			onPath.push(v);
+			if (v === t) {
+				let sum = 0;
+				for (let i = 0; i < path.length - 1; i++)
+					sum += g[`${path[i]}${path[i + 1]}`]
+				if (sum === r)
+					paths.push(path.slice())
+			}
+			else
+				list[v].forEach(w => {
+					if (!onPath.includes(w))
+						enumerate(list, w, t)
+				});
+			path.pop();
+			onPath.splice(onPath.indexOf(v), 1);
+		};
+		enumerate(list, 0, count);
+		return paths;
 	};
 });
 
@@ -168,6 +199,10 @@ app.factory('Share', () => {
 			{from: 6, to: 8, share: 4},
 			{from: 7, to: 8, share: 6}
 		],
+		vs: {
+			min: [],
+			max: []
+		},
 		matrix: [],
 		shortest: {
 			result: []
@@ -177,17 +212,6 @@ app.factory('Share', () => {
 		}
 	}
 });
-
-const debug = () => {
-	(function () {
-		const a = document.createElement("script");
-		a.src = "https://rawgit.com/kentcdodds/ng-stats/master/dist/ng-stats.js";
-		a.onload = function () {
-			window.showAngularStats()
-		};
-		document.head.appendChild(a)
-	})();
-};
 
 Array.prototype.equals = function (array) {
 	return JSON.stringify(this) === JSON.stringify(array)

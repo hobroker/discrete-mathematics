@@ -34,38 +34,41 @@
     </div>
     <div flex>
         <div layout-gt-md="row">
-            <div flex="20">
+            <div flex-gt-md="20">
+                <h2 class="md-subhead">Introducere ponderi</h2>
                 <md-content ng-include="'parts/share.html'" class="part"></md-content>
             </div>
-            <div flex="40" ng-show="finish">
+            <div ng-show="finish" flex>
                 <h2 class="md-subhead">Matricea ponderată de adiacență</h2>
                 <md-content ng-include="'parts/matrix.html'" class="part"></md-content>
-            </div>
-            <div flex ng-show="finish">
-                <p>Drumul minim</p>
-                <table>
-                    <tr ng-repeat="row in data.shortest.result">
-                        <th class="corner-tl">
-                            x<sub>{{$index+1}}</sub>
-                        </th>
-                        <td class="corner-tr">
-                            {{humanList(row)}}
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div flex ng-show="finish">
-                <p>Drumul maxim</p>
-                <table>
-                    <tr ng-repeat="row in data.longest.result">
-                        <th class="corner-tl">
-                            x<sub>{{$index+1}}</sub>
-                        </th>
-                        <td class="corner-tr">
-                            {{humanList(row)}}
-                        </td>
-                    </tr>
-                </table>
+                <div layout="row">
+                    <div flex="1">
+                        <md-button class="md-primary md-icon-button" aria-label="Step 2">
+                            <md-icon>done</md-icon>
+                        </md-button>
+                    </div>
+                    <div flex="50" ng-show="finish">
+                        <p><b>Drumul minim</b></p>
+                        <p>lung dMin = {{data.shortest.length}}</p>
+                        <p>Drumurile:</p>
+                        <ul ng-repeat="path in data.shortest.result">
+                            <li>dMin{{$index+1}} = { {{humanPath(path)}} }</li>
+                        </ul>
+                    </div>
+                    <div flex="1">
+                        <md-button class="md-primary md-icon-button" aria-label="Step 2">
+                            <md-icon>done</md-icon>
+                        </md-button>
+                    </div>
+                    <div flex="50" ng-show="finish">
+                        <p><b>Drumul maxim</b></p>
+                        <p>lung dMax = {{data.longest.length}}</p>
+                        <p>Drumurile:</p>
+                        <ul ng-repeat="path in data.longest.result">
+                            <li>dMax{{$index+1}} = { {{humanPath(path)}} }</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

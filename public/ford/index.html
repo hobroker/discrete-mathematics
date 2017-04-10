@@ -53,10 +53,10 @@
         <h2 class="md-subhead">Drum maxim</h2>
         <md-button class="md-raised" ng-click="maxPath()">start</md-button>
         <div layout-gt-md="row">
-            <div flex="40">
+            <div flex="40" ng-hide="!data.longest.length">
                 <md-content ng-include="'parts/longest.html'" class="part"></md-content>
             </div>
-            <!--<div flex>
+            <!--<div flex ng-hide="!data.longest.length">
                 <p>Calcule</p>
                 <table class="table-free">
                     <tr ng-repeat="log in data.longest.logs">
@@ -64,7 +64,7 @@
                     </tr>
                 </table>
             </div>
-            <div flex>
+            <div flex ng-hide="!data.longest.length">
                 <p>Valorile lui H</p>
                 <table class="table-free">
                     <tr ng-repeat="item in data.longest.hs.history">
@@ -73,18 +73,13 @@
                     </tr>
                 </table>
             </div>-->
-            <div flex>
-                <p>Rezultat:</p>
-                <table>
-                    <tr ng-repeat="row in data.longest.result">
-                        <th class="corner-tl">
-                            x<sub>{{$index+1}}</sub>
-                        </th>
-                        <td class="corner-tr">
-                            {{humanList(row)}}
-                        </td>
-                    </tr>
-                </table>
+            <div flex ng-hide="!data.longest.length">
+                <p><b>Rezultat:</b></p>
+                <p>lung dMax = {{data.longest.length}}</p>
+                <p>Drumurile:</p>
+                <ul ng-repeat="path in data.longest.result">
+                    <li>dMax{{$index+1}} = { {{humanPath(path)}} }</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -100,10 +95,10 @@
         <h2 class="md-subhead">Drum minim</h2>
         <md-button class="md-raised" ng-click="minPath()">start</md-button>
         <div layout-gt-md="row">
-            <div flex="40">
+            <div flex="40" ng-hide="!data.shortest.length">
                 <md-content ng-include="'parts/shortest.html'" class="part"></md-content>
             </div>
-            <!--<div flex>
+            <!--<div flex ng-hide="!data.shortest.length">
                 <p>Calcule</p>
                 <table class="table-free">
                     <tr ng-repeat="log in data.shortest.logs">
@@ -111,7 +106,7 @@
                     </tr>
                 </table>
             </div>
-            <div flex>
+            <div flex ng-hide="!data.shortest.length">
                 <p>Valorile lui H</p>
                 <table class="table-free">
                     <tr ng-repeat="item in data.shortest.hs.history">
@@ -120,23 +115,17 @@
                     </tr>
                 </table>
             </div>-->
-            <div flex>
-                <p>Rezultat:</p>
-                <table>
-                    <tr ng-repeat="row in data.shortest.result">
-                        <th class="corner-tl">
-                            x<sub>{{$index+1}}</sub>
-                        </th>
-                        <td class="corner-tr">
-                            {{humanList(row)}}
-                        </td>
-                    </tr>
-                </table>
+            <div flex ng-hide="!data.shortest.length">
+                <p><b>Rezultat:</b></p>
+                <p>lung dMin = {{data.shortest.length}}</p>
+                <p>Drumurile:</p>
+                <ul ng-repeat="path in data.shortest.result">
+                    <li>dMin{{$index+1}} = { {{humanPath(path)}} }</li>
+                </ul>
             </div>
         </div>
     </div>
 </div>
-
 
 
 <script src="src/angular.js"></script>

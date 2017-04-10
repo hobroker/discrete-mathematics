@@ -15,4 +15,22 @@
             {{item}}
         </td>
     </tr>
+    <tr>
+        <th colspan="{{points.count+1}}">drumul minim:</th>
+    </tr>
+    <tr ng-repeat="row in data.vs.min">
+        <th>v<sub>{{$index}}</sub></th>
+        <td ng-repeat="item in row track by $index">
+            {{item}}
+        </td>
+    </tr>
+    <tr>
+        <th colspan="{{points.count+1}}">drumul maxim:</th>
+    </tr>
+    <tr ng-repeat="row in data.vs.max">
+        <th>v<sub>{{$index}}</sub></th>
+        <td ng-repeat="item in row track by $index">
+            {{item}}
+        </td>
+    </tr>
 </table>

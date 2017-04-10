@@ -43,9 +43,9 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 		history.forEach((item, index) => item.push(!index ? 0 : infinitySymbol));
 
 		let stillWorking = true;
-		let list = [];
+		let list;
 		while (stillWorking) {
-			list = [];
+			list = Array.from(new Array(pointsCount).keys()).map(i => []);
 			let tableCol = [];
 			stillWorking = false;
 			shares.forEach(share => {
@@ -71,12 +71,12 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 			});
 			table.push(tableCol);
 		}
-		list = list.map(row => row.filter(i => i === (pointsCount - 1) || list[i] !== undefined && list[i].length));
 		$scope.data.shortest.hs.history = history;
 		$scope.data.shortest.hs.values = hs;
 		$scope.data.shortest.hs.table = table;
-		$scope.data.shortest.result = list;
+		$scope.data.shortest.result = getPaths(hs[7], list);
 		$scope.data.shortest.logs = logs;
+		$scope.data.shortest.length = hs[7];
 	};
 
 	$scope.maxPath = () => {
@@ -92,9 +92,9 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 		history.forEach((item, index) => item.push(!index ? 0 : "-" + infinitySymbol));
 
 		let stillWorking = true;
-		let list = [];
+		let list;
 		while (stillWorking) {
-			list = [];
+			list = Array.from(new Array(pointsCount).keys()).map(i => []);
 			let tableCol = [];
 			stillWorking = false;
 			shares.forEach(share => {
@@ -120,12 +120,42 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 			});
 			table.push(tableCol);
 		}
-		list = list.map(row => row.filter(i => i === (pointsCount - 1) || list[i] !== undefined && list[i].length));
 		$scope.data.longest.hs.history = history;
 		$scope.data.longest.hs.values = hs;
 		$scope.data.longest.hs.table = table;
-		$scope.data.longest.result = list;
+		$scope.data.longest.result = getPaths(hs[7], list);
 		$scope.data.longest.logs = logs;
+		$scope.data.longest.length = hs[7];
+	};
+
+	const getPaths = (r, list) => {
+		let count = $scope.points.count - 1;
+		let graph = $scope.data.shares;
+		let g = {};
+		graph.forEach(item => g[(item.from - 1) + '' + (item.to - 1)] = item.share);
+		let path = [];
+		let paths = [];
+		let onPath = [];
+		const enumerate = (list, v, t) => {
+			path.push(v);
+			onPath.push(v);
+			if (v === t) {
+				let sum = 0;
+				for (let i = 0; i < path.length - 1; i++)
+					sum += g[`${path[i]}${path[i + 1]}`]
+				if (sum === r)
+					paths.push(path.slice())
+			}
+			else
+				list[v].forEach(w => {
+					if (!onPath.includes(w))
+						enumerate(list, w, t)
+				});
+			path.pop();
+			onPath.splice(onPath.indexOf(v), 1);
+		};
+		enumerate(list, 0, count);
+		return paths;
 	};
 
 	$scope.humanList = (row = []) => {
@@ -133,6 +163,9 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 		a = a.sort().map((i) => parseInt(i) + 1);
 		a.push(0);
 		return a.join('_');
+	};
+	$scope.humanPath = (row = []) => {
+		return row.map(i => i + 1).join(', ');
 	};
 
 });
@@ -177,14 +210,3 @@ app.factory('Share', () => {
 		}
 	}
 });
-
-const debug = () => {
-	(function () {
-		const a = document.createElement("script");
-		a.src = "https://rawgit.com/kentcdodds/ng-stats/master/dist/ng-stats.js";
-		a.onload = function () {
-			window.showAngularStats()
-		};
-		document.head.appendChild(a)
-	})();
-};
