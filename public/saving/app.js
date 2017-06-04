@@ -11,13 +11,13 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Graph, DFT, BFT) => {
 	$scope.input_types = [
 		{
 			name: 'Matricea de incidență',
-			src: '/parts/i_matrix.html',
+			src: 'parts/i_matrix.html',
 		}, {
 			name: 'Matricea de adiacență',
-			src: '/parts/a_matrix.html',
+			src: 'parts/a_matrix.html',
 		}, {
 			name: 'Lista de adiacență',
-			src: '/parts/a_list.html'
+			src: 'parts/a_list.html'
 		}
 	];
 	$scope.ux = {
