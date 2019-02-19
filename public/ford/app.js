@@ -12,7 +12,7 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 	$scope.title = 'MD Lab 4';
 
 	$scope.points = {
-		count: 8,
+		count: 6,
 		array: []
 	};
 
@@ -74,9 +74,9 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 		$scope.data.shortest.hs.history = history;
 		$scope.data.shortest.hs.values = hs;
 		$scope.data.shortest.hs.table = table;
-		$scope.data.shortest.result = getPaths(hs[7], list);
+		$scope.data.shortest.result = getPaths(hs[pointsCount - 1], list);
 		$scope.data.shortest.logs = logs;
-		$scope.data.shortest.length = hs[7];
+		$scope.data.shortest.length = hs[pointsCount - 1];
 	};
 
 	$scope.maxPath = () => {
@@ -123,9 +123,9 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 		$scope.data.longest.hs.history = history;
 		$scope.data.longest.hs.values = hs;
 		$scope.data.longest.hs.table = table;
-		$scope.data.longest.result = getPaths(hs[7], list);
+		$scope.data.longest.result = getPaths(hs[pointsCount - 1], list);
 		$scope.data.longest.logs = logs;
-		$scope.data.longest.length = hs[7];
+		$scope.data.longest.length = hs[pointsCount - 1];
 	};
 
 	const getPaths = (r, list) => {
@@ -173,22 +173,15 @@ app.controller('DeskCtrl', ($scope, $mdDialog, Share) => {
 app.factory('Share', () => {
 	return {
 		shares: [
-			{"from": 1, "to": 2, "share": 6},
-			{"from": 1, "to": 3, "share": 10},
-			{"from": 1, "to": 5, "share": 12},
-			{"from": 2, "to": 3, "share": 6},
-			{"from": 2, "to": 4, "share": 4},
-			{"from": 2, "to": 7, "share": 8},
-			{"from": 3, "to": 4, "share": 5},
-			{"from": 3, "to": 5, "share": 6},
-			{"from": 4, "to": 5, "share": 7},
-			{"from": 4, "to": 6, "share": 6},
-			{"from": 4, "to": 8, "share": 10},
-			{"from": 5, "to": 6, "share": 5},
-			{"from": 5, "to": 7, "share": 6},
-			{"from": 5, "to": 8, "share": 8},
-			{"from": 6, "to": 8, "share": 4},
-			{"from": 7, "to": 8, "share": 6}
+			{"from": 1, "to": 2, "share": 3},
+			{"from": 1, "to": 3, "share": 8},
+			{"from": 1, "to": 4, "share": 6},
+			{"from": 2, "to": 4, "share": 2},
+			{"from": 2, "to": 5, "share": 9},
+			{"from": 3, "to": 5, "share": 1},
+			{"from": 4, "to": 3, "share": 2},
+			{"from": 4, "to": 6, "share": 7},
+			{"from": 5, "to": 6, "share": 2}
 		],
 		shortest: {
 			hs: {
